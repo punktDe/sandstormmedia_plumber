@@ -250,6 +250,18 @@ class Tx_SandstormmediaPlumber_Hooks_Hook implements t3lib_Singleton, Tx_Sandsto
 
 
 
+	public function extlist_preProcessAction($query) {
+		if ($this->run) $this->run->startTimer('DB: EXTLIST', array('Query' => $query));
+	}
+
+
+
+	public function extlist_postProcessAction() {
+		if ($this->run) $this->run->stopTimer('DB: EXTLIST');
+	}
+
+
+
 	/************************************************************************************************************************
 	 * Private methods
 	 ************************************************************************************************************************/
