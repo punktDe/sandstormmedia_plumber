@@ -117,7 +117,16 @@ class Tx_SandstormmediaPlumber_Hooks_Hook implements t3lib_Singleton, Tx_Sandsto
 			$profiler = \Sandstorm\PhpProfiler\Profiler::getInstance();
 			$profiler->setConfiguration('profilePath', $this->profileDirectory);
 			$this->profiler = $profiler;
-			$this->run = $profiler->start();
+
+			try{
+				$this->run = $profiler->start();
+			} catch (\Exception $e){
+				if ($e->getMessage() == 'Profiling already started'){
+					$this->run = $profiler->getRun();
+				} else {
+					throw $e;
+				}
+			}
 
 			$this->run->setOption('requestUri', t3lib_div::getIndpEnv('REQUEST_URI'));
 
